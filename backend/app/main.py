@@ -21,6 +21,11 @@ app.add_middleware(
 @app.get("/")
 def read_root():
     return {"message": "Lead Qualification API is running. Access documentation at /docs"}
+@app.get("/api/test-db")
+def test_db():
+    import os
+    try: return {"db_url": os.getenv("DATABASE_URL"), "write_success": open("/tmp/test_write.txt", "w").write("hello") or True, "cwd": os.getcwd(), "exists": os.path.exists("/tmp")}
+    except Exception as e: return {"db_url": os.getenv("DATABASE_URL"), "write_success": str(e), "cwd": os.getcwd(), "exists": os.path.exists("/tmp")}
 
 # --- Leads Endpoints ---
 
